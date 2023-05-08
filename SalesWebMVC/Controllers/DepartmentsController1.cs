@@ -3,7 +3,7 @@ using SalesWebMVC.Models;
 
 namespace SalesWebMVC.Controllers
 {
-    public class DepartmentsController1 : Controller
+    public class DepartmentsController : Controller
     {
         public IActionResult Index()            
         {
