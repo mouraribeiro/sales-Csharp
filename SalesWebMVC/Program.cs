@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using SalesWebMVC.Data;
+using SalesWebMVC.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
 var serverVersion = new MySqlServerVersion(new Version(8, 0));
 builder.Services.AddDbContext<SalesWebMVCContext>(options =>
@@ -10,24 +13,16 @@ builder.Services.AddDbContext<SalesWebMVCContext>(options =>
 // Add services to the container.
 builder.Services.AddTransient<SeedingService>();
 builder.Services.AddScoped<SeedingService>();
+builder.Services.AddScoped<SellerService>();
+builder.Services.AddScoped<DepartmentService>();
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-if (args.Length == 1 && args[0].ToLower() == "seeddata")
-    SeedData(app);
+
 
 //Seed Data
-void SeedData(IHost app)
-{
-    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
-    using (var scope = scopedFactory.CreateScope())
-    {
-        var service = scope.ServiceProvider.GetService<SeedingService>();
-        service.Seed();
-    }
-}
 
 
 
